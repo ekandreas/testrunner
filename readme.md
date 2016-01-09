@@ -1,4 +1,4 @@
-# Plugin Test Helper
+# WordPress Plugin Test Helper
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://packagist.org/packages/ekandreas/bladerunner)
 
 *** WORK IN PROGRESS ***
