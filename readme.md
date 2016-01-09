@@ -11,6 +11,10 @@ Step 2, adding local test, in progress...
 
 Step 3, put the tests inside the docker machine
 
+## Requirements
+* Docker-machine with VirtualBox
+* PHP Composer 
+
 ## Setup
 
 To be included inside your PHP Deploy projects with WordPress development.
@@ -25,11 +29,12 @@ Add the stage for the Docker machine with name and IP, eg:
 ```php
 server( 'test', '192.168.99.100');
 ```
+If you don't have a docker machine setup then the deploy script will try to create it for you. Virtualbox as default.
 
 ## Running tests
 
 Run the test against your stage, eg:
 ```bash
-dep phpunit test
+vendor/bin/dep phpunit test
 ```
 
