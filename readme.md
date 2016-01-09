@@ -3,6 +3,8 @@
 
 *** WORK IN PROGRESS ***
 
+ALL TESTS PERFORMED OUTSIDE THE CONTAINER, THIS WILL CHANGE...
+
 Step 1, checking out wp develop to unittest, ok!
 
 Step 2, adding local test, in progress...
@@ -13,20 +15,21 @@ Step 3, put the tests inside the docker machine
 
 To be included inside your PHP Deploy projects with WordPress development.
 
-Include the recipe in your deployer script, eg:
+Include the common recipe and testrunner recipe in your deployer script, eg:
 ```php
+include_once 'vendor/deployer/deployer/recipe/common.php';
 include_once 'vendor/ekandreas/testrunner/recipe.php';
+```
+
+Add the stage for the Docker machine with name and IP, eg:
+```php
+server( 'test', '192.168.99.100');
 ```
 
 ## Running tests
 
-Run the test, eg:
+Run the test against your stage, eg:
 ```bash
-dep tests
+dep phpunit test
 ```
 
-If you have a stage option, eg:
-Run the test, eg:
-```bash
-dep tests development
-```
