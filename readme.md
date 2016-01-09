@@ -5,6 +5,8 @@
 
 ALL TESTS PERFORMED OUTSIDE THE CONTAINER, THIS WILL CHANGE...
 
+*The testsuite should be placed within a plugin that's going to be tested.*
+
 Step 1, checking out wp develop to unittest, ok!
 
 Step 2, adding local test, in progress...
@@ -50,8 +52,8 @@ set( 'docker_host_name', 'test');
 
 ## Running tests
 
-Run the test against your stage, eg:
+Run the test with deployer, eg:
 ```bash
-vendor/bin/dep testrunner test
+vendor/bin/dep testrunner
 ```
 
