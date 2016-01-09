@@ -6,9 +6,15 @@ task('testrunner:docker', function () {
 
     $output = "";
 
-    writeln('Getting docker env');
+    $server = \Deployer\Task\Context::get()->getServer();
 
-    $docker_name = get('docker_host_name');
+    $docker_name = $server->getConfiguration()->getName();
+    env('testrunner_docker_ip', $docker_name);
+
+    $docker_ip = $server->getConfiguration()->getHost();
+    env('testrunner_docker_name',$docker_ip);
+
+    writeln('Getting docker env');
 
     try {
         writeln("Create docker-machine");
@@ -41,28 +47,30 @@ task('testrunner:docker', function () {
     runLocally("cd {{test_dir}} && docker-compose up -d");
 
     writeln('Wait for mysql to spin up...');
-    sleep(4);
+    //sleep(1);
 
 })->desc('Starting docker');
 
 
 task('testrunner:wp', function () {
-    writeln('Checking out WordPress from SVN');
-    runLocally('cd {{test_dir}} && svn co https://develop.svn.wordpress.org/trunk/ --non-interactive --trust-server-cert  wp', 999);
+    writeln('Setting up WordPress');
+    env('deploy_path','/var/www/html/wp');
+    run('mkdir -p wp && cd wp && ls -l', 999);
+    die;
 })->desc('Start testing wp');
 
 
 task('testrunner:prepp', function () {
     writeln('Config files');
     $ip = get('testrunner_docker_ip');
-    runLocally("cd {{test_dir}} && sed 's/docker_ip/$ip/g' wp-tests-config.php > wp/wp-tests-config.php");
+    //runLocally("cd {{test_dir}} && sed 's/docker_ip/$ip/g' wp-tests-config.php > wp/wp-tests-config.php");
 })->desc('Start testing wp');
 
 
 task('testrunner:run', function () {
     writeln('Running phpunit');
-    $output = runLocally('cd {{test_dir}}/wp && ../../../../vendor/bin/phpunit', 999);
-    writeln($output);
+    //$output = runLocally('cd {{test_dir}}/wp && ../../../../vendor/bin/phpunit', 999);
+    //writeln($output);
 })->desc('Start testing wp');
 
 
