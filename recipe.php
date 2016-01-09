@@ -48,27 +48,27 @@ task('testrunner:docker', function () {
 
 task('testrunner:wp', function () {
     writeln('Checking out WordPress from SVN');
-    runLocally('cd {{test_dir}} && svn co https://develop.svn.wordpress.org/trunk/ --non-interactive --trust-server-cert  wordpress-develop', 999);
+    runLocally('cd {{test_dir}} && svn co https://develop.svn.wordpress.org/trunk/ --non-interactive --trust-server-cert  wp', 999);
 })->desc('Start testing wp');
 
 
 task('testrunner:prepp', function () {
     writeln('Config files');
     $ip = get('testrunner_docker_ip');
-    runLocally("cd {{test_dir}} && sed 's/docker_ip/$ip/g' wp-tests-config.php > wordpress-develop/wp-tests-config.php");
+    runLocally("cd {{test_dir}} && sed 's/docker_ip/$ip/g' wp-tests-config.php > wp/wp-tests-config.php");
 })->desc('Start testing wp');
 
 
 task('testrunner:run', function () {
     writeln('Running phpunit');
-    $output = runLocally('cd {{test_dir}}/wordpress-develop && ../../../../vendor/bin/phpunit', 999);
+    $output = runLocally('cd {{test_dir}}/wp && ../../../../vendor/bin/phpunit', 999);
     writeln($output);
 })->desc('Start testing wp');
 
 
 task('testrunner:cleanup', function () {
     writeln('Killing containers');
-    runLocally('rm -Rf vendor/ekandreas/testrunner/wordpress-develop');
+    runLocally('rm -Rf vendor/ekandreas/testrunner/wp');
     runLocally('cd {{test_dir}} && docker-compose stop && docker-compose rm -f');
 })->desc('Cleanup');
 
