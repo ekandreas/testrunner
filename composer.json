@@ -2,8 +2,7 @@
     "name": "ekandreas/testrunner",
     "require": {
         "deployer/deployer": "^3.0",
-        "phpunit/phpunit": "*",
-        "wp-cli/wp-cli": "*"
+        "phpunit/phpunit": "*"
     },
     "authors": [
         {
