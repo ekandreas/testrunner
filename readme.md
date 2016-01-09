@@ -3,59 +3,30 @@
 
 *** WORK IN PROGRESS ***
 
+Step 1, checking out wp develop to unittest, ok!
+
+Step 2, adding local test, in progress...
+
+Step 3, put the tests inside the docker machine
+
+## Setup
+
 To be included inside your PHP Deploy projects with WordPress development.
 
-
-
-
-
-
-...
-
-
-Testing WordPress Develop with Composer and Docker in OSX.
-
-## Requirements
-All these components should be installed to your local environment, preferable with Brew.
-* Docker with the new docker-machine installed (not the old Boot2Docker)
-* PHP installed
-* PHP Composer installed
-* PHPUnit installed
-* Git
-
-## Step by step
-
-### Clone
-Checkout this repo to your folder
-```bash
-git clone http://github.com/ekandreas/dwpt
+Include the recipe in your deployer script, eg:
+```php
+include_once 'vendor/ekandreas/testrunner/recipe.php';
 ```
 
-### Folder
-Step into the folder
+## Running tests
+
+Run the test, eg:
 ```bash
-cd dwpt
+dep tests
 ```
 
-### IP-address
-Change the IP-address in 'deploy.php' to your Docker IP, eg 192.168.99.100
+If you have a stage option, eg:
+Run the test, eg:
 ```bash
-nano deploy.php
+dep tests development
 ```
-
-### Composer update
-Run composer install or update
-```bash
-composer update
-```
-
-### Running tests
-Run tests with PHP Deployer
-```bash
-vendor/bin/dep tests
-```
-If you want a more verbose output then add -v, -vv or -vvv to the command, eg:
-```bash
-vendor/bin/dep tests -vvv
-```
-
