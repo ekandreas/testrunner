@@ -1,6 +1,6 @@
 {
     "name": "ekandreas/testrunner",
-    "require-dev": {
+    "require": {
         "deployer/deployer": "^3.0",
         "phpunit/phpunit": "*",
         "frozzare/wp-test-suite": "^1.0"
@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "Andreas Ek",
-            "email": "andreas@andreasek.se"
+            "email": "andreas@aekab.se"
         }
     ]
 }
