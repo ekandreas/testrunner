@@ -1,5 +1,17 @@
-# Docker WordPress Tests
+# Plugin Test Helper
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://packagist.org/packages/ekandreas/bladerunner)
+
+*** WORK IN PROGRESS ***
+
+To be included inside your PHP Deploy projects with WordPress development.
+
+
+
+
+
+
+...
+
 
 Testing WordPress Develop with Composer and Docker in OSX.
 
