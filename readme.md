@@ -16,8 +16,10 @@ Step 3, put the tests inside the docker machine
 * PHP Composer 
 
 ## Setup
-
-To be included inside your PHP Deploy projects with WordPress development.
+Install this lib with composer, eg:
+```
+composer require ekandreas/testrunner:dev-master
+```
 
 Include the common recipe and testrunner recipe in your deployer script, eg:
 ```php
@@ -32,6 +34,19 @@ Add the stage for the Docker machine with name and IP, eg:
 server( 'test', '192.168.99.100');
 ```
 If you don't have a docker machine setup then the deploy script will try to create it for you. Virtualbox as default.
+
+### Deploy file example
+```php
+<!-- deploy.php -->
+<?php
+date_default_timezone_set('Europe/Stockholm');
+
+include_once 'vendor/deployer/deployer/recipe/common.php';
+include_once 'vendor/ekandreas/testrunner/recipe.php';
+
+server( 'test', '192.168.99.104');
+
+```
 
 ## Running tests
 
