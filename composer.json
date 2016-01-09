@@ -1,5 +1,5 @@
 {
-    "name": "andreas/testrunner",
+    "name": "ekandreas/testrunner",
     "require-dev": {
         "deployer/deployer": "^3.0",
         "phpunit/phpunit": "*",
