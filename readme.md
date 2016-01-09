@@ -21,12 +21,14 @@ To be included inside your PHP Deploy projects with WordPress development.
 
 Include the common recipe and testrunner recipe in your deployer script, eg:
 ```php
+<!-- deploy.php -->
 include_once 'vendor/deployer/deployer/recipe/common.php';
 include_once 'vendor/ekandreas/testrunner/recipe.php';
 ```
 
 Add the stage for the Docker machine with name and IP, eg:
 ```php
+<!-- deploy.php -->
 server( 'test', '192.168.99.100');
 ```
 If you don't have a docker machine setup then the deploy script will try to create it for you. Virtualbox as default.
