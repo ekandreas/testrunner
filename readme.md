@@ -12,6 +12,7 @@ Step 2, adding local test, in progress...
 Step 3, put the tests inside the docker machine
 
 ## Requirements
+* WordPres environment with a PHP Composer setup, eg Roots Bedrock.
 * Docker-machine with VirtualBox
 * PHP Composer 
 
