@@ -3,7 +3,7 @@
     "require": {
         "deployer/deployer": "^3.0",
         "phpunit/phpunit": "*",
-        "frozzare/wp-test-suite": "^1.0"
+        "wp-cli/wp-cli": "*"
     },
     "authors": [
         {

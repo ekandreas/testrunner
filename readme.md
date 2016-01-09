@@ -12,7 +12,6 @@ Step 2, adding local test, in progress...
 Step 3, put the tests inside the docker machine
 
 ## Requirements
-* WordPres environment with a PHP Composer setup, eg Roots Bedrock.
 * Docker-machine with VirtualBox
 * PHP Composer 
 
@@ -32,7 +31,7 @@ include_once 'vendor/ekandreas/testrunner/recipe.php';
 Add the stage for the Docker machine with name and IP, eg:
 ```php
 <!-- deploy.php -->
-server( 'test', '192.168.99.100');
+set( 'docker_host_name', 'test');
 ```
 If you don't have a docker machine setup then the deploy script will try to create it for you. Virtualbox as default.
 
@@ -45,7 +44,7 @@ date_default_timezone_set('Europe/Stockholm');
 include_once 'vendor/deployer/deployer/recipe/common.php';
 include_once 'vendor/ekandreas/testrunner/recipe.php';
 
-server( 'test', '192.168.99.104');
+set( 'docker_host_name', 'test');
 
 ```
 
@@ -53,6 +52,6 @@ server( 'test', '192.168.99.104');
 
 Run the test against your stage, eg:
 ```bash
-vendor/bin/dep phpunit test
+vendor/bin/dep testrunner test
 ```
 
