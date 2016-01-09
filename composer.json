@@ -1,8 +1,9 @@
 {
-    "name": "andreas/dwpt",
-    "require": {
+    "name": "andreas/testrunner",
+    "require-dev": {
         "deployer/deployer": "^3.0",
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "frozzare/wp-test-suite": "^1.0"
     },
     "authors": [
         {
