@@ -4,6 +4,7 @@ use Deployer\Deployer;
 /* default parameters */
 set('docker_host_name', 'tests');
 set('test_dir', __DIR__);
+set('wp_branch', '');
 
 
 task('tests:setup_docker', function () {
@@ -60,6 +61,7 @@ task('tests:docker_env', function () {
 
 task('tests:rebuild_images', function () {
     writeln('Rebuilding Docker images');
+    runLocally("{{ docker }} && rm -Rf wordpress && rm -Rf wordpress-develop");
     runLocally("{{docker}} && docker-compose build --no-cache --force-rm", 999);
 })->desc('Rebuilds the Docker container images without cache');
 
@@ -75,7 +77,16 @@ task('tests:run_containers', function () {
 task('tests:install', function () {
     $ip = env('testrunner_docker_ip');
     writeln('Running install...');
-    runLocally("{{docker}} && docker-compose run web bin/install.sh $ip", 999);
+
+    $branch = get('wp_branch');
+    if(empty($branch)) {
+        $api_url = 'http://api.wordpress.org/core/version-check/1.7/';
+        $version = file_get_contents($api_url);
+        preg_match('/\"current\":\"(.*?)\"/', $version, $matches);
+        $branch = $matches[1];
+    }
+
+    runLocally("{{docker}} && docker-compose run web bin/install.sh $ip $branch", 999);
 })->desc('Runs the install script within the Docker container instance');
 
 
@@ -86,7 +97,8 @@ task('tests:run_tests', function () {
         writeln('Running install...');
         runLocally("{{docker}} && docker-compose run web bin/install.sh $ip", 999);
     }
-    runLocally("{{docker}} && docker-compose run web bin/tests.sh", 999);
+    $output = runLocally("{{docker}} && docker-compose run web bin/tests.sh", 999);
+    writeln($output);
 })->desc('Runs the tests within the Docker container instance');
 
 
@@ -99,7 +111,13 @@ task('tests:stop_containers', function () {
 task('tests:kill_containers', function () {
     writeln('Killing containers...');
     runLocally("{{ docker }} && rm -Rf wordpress && rm -Rf wordpress-develop");
-    runLocally("{{docker}} && docker-compose rm -f");
+    for ($i=1; $i<100; $i++) {
+        try {
+            runLocally("{{docker}} && docker rm -f testrunner_web_run_$i");
+        } catch (Exception $ex) {
+            break;
+        }
+    }
 })->desc('Removes the Docker container instances');
 
 

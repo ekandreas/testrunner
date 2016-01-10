@@ -4,7 +4,7 @@ DB_NAME=wp
 DB_USER=root
 DB_PASS=root
 DB_HOST=$1
-WP_VERSION=${2-latest}
+WP_VERSION=$2
 
 WP_CORE_DIR=/usr/src/testrunner/wordpress
 WP_DEVELOP_DIR=${WP_DEVELOP_DIR-/usr/src/testrunner/wordpress-develop}
@@ -43,7 +43,7 @@ install_test_suite() {
 		git clone https://github.com/frozzare/wordpress-develop.git $WP_DEVELOP_DIR
 		cd $WP_DEVELOP_DIR
 		git fetch
-		git checkout 4.4
+		git checkout $WP_BRANCH
 
 		echo "SED wp-config"
 		cp $WP_DEVELOP_DIR/wp-tests-config-sample.php $WP_DEVELOP_DIR/wp-tests-config.php
@@ -57,3 +57,6 @@ install_test_suite() {
 
 install_wp
 install_test_suite
+
+echo "Installation done!"
+

@@ -21,6 +21,7 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mv phpunit.phar /usr/local/bin/phpunit
 
 RUN docker-php-ext-install mysqli zip mbstring
+RUN docker-php-ext-enable mbstring
 
 COPY . /usr/src/testrunner
 WORKDIR "/usr/src/testrunner"
