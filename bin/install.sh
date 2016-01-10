@@ -17,21 +17,18 @@ install_wp() {
 
 	cd $WP_CORE_DIR
 
-	if [ ! -d "$WP_CORE_DIR/wp-content" ]; then
-
+	if [ ! -d "$WP_CORE_DIR/wp-content/" ]; then
 		wp core download --path=$WP_CORE_DIR --version=$WP_VERSION --allow-root
 		wp core config --dbname=wp --dbuser=root --dbpass=root --dbhost=$DB_HOST --allow-root
 		wp core install --path=$WP_CORE_DIR --url=http://local.dev --title=test --admin_user=admin --admin_password=admin --admin_email=a@aekab.se --skip-email --allow-root
 
 		wget -nv -O $WP_CORE_DIR/wp-content/db.php https://raw.github.com/markoheijnen/wp-mysqli/master/db.php
-
 	fi
 }
 
 install_test_suite() {
 
-	if [ ! -d "$WP_DEVELOP_DIR" ]; then
-
+	if [ ! -d "$WP_DEVELOP_DIR/wp-content/" ]; then
 		# portable in-place argument for both GNU sed and Mac OSX sed
 		if [[ $(uname -s) == 'Darwin' ]]; then
 			local ioption='-i .bak'
@@ -44,7 +41,7 @@ install_test_suite() {
 		git clone https://github.com/frozzare/wordpress-develop.git $WP_DEVELOP_DIR
 		cd $WP_DEVELOP_DIR
 		git fetch
-		git checkout ${WP_BRANCH}
+		git checkout 4.4
 
 		echo "SED wp-config"
 		cp $WP_DEVELOP_DIR/wp-tests-config-sample.php $WP_DEVELOP_DIR/wp-tests-config.php
@@ -54,7 +51,6 @@ install_test_suite() {
 		sed $ioption "s/yourpasswordhere/$DB_PASS/" $WP_DEVELOP_DIR/wp-tests-config.php
 		sed $ioption "s|localhost|${DB_HOST}|" $WP_DEVELOP_DIR/wp-tests-config.php
 	fi
-
 }
 
 install_wp

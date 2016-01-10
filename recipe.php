@@ -98,6 +98,7 @@ task('tests:stop_containers', function () {
 
 task('tests:kill_containers', function () {
     writeln('Killing containers...');
+    runLocally("{{ docker }} && rm -Rf wordpress && rm -Rf wordpress-develop");
     runLocally("{{docker}} && docker-compose rm -f");
 })->desc('Removes the Docker container instances');
 
@@ -111,6 +112,7 @@ task('tests:stop_machine', function () {
 
 task('tests:kill_machine', function () {
     $docker_host_name = get('docker_host_name');
+    runLocally("{{ docker }} && rm -Rf wordpress && rm -Rf wordpress-develop");
     writeln('Killing test machine...');
     runLocally("docker-machine rm -f $docker_host_name");
 })->desc('Removes the Docker virtual machine');
@@ -150,9 +152,9 @@ task('tests:stop', [
     'tests:docker_env',
     'tests:stop_containers',
     'tests:kill_containers',
-    'tests:stop_machine',
 ])->desc('Stopping and killing containers and then stops the virtual machine');
 
 task('tests:kill', [
+    'tests:stop_machine',
     'tests:kill_machine',
 ])->desc('Stopping and killing containers and removes the virtual machine');
