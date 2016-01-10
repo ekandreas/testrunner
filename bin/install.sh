@@ -6,8 +6,8 @@ DB_PASS=root
 DB_HOST=$1
 WP_VERSION=${2-latest}
 
-WP_CORE_DIR=/usr/src/wordpress
-WP_DEVELOP_DIR=${WP_DEVELOP_DIR-/usr/src/wordpress-develop}
+WP_CORE_DIR=/usr/src/testrunner/wordpress
+WP_DEVELOP_DIR=${WP_DEVELOP_DIR-/usr/src/testrunner/wordpress-develop}
 
 set -ex
 
@@ -27,6 +27,8 @@ install_wp() {
 }
 
 install_test_suite() {
+
+	mkdir -p $WP_DEVELOP_DIR
 
 	if [ ! -d "$WP_DEVELOP_DIR/src/wp-content/" ]; then
 		# portable in-place argument for both GNU sed and Mac OSX sed
