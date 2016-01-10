@@ -1,19 +1,11 @@
 <?php
-
 use Deployer\Deployer;
 
 task('testrunner:docker', function () {
 
     $output = "";
 
-    $server = \Deployer\Task\Context::get()->getServer();
-
-    $docker_name = $server->getConfiguration()->getName();
-    env('testrunner_docker_ip', $docker_name);
-
-    $docker_ip = $server->getConfiguration()->getHost();
-    env('testrunner_docker_name',$docker_ip);
-
+    $docker_name = get('docker_host_name');
     writeln('Getting docker env');
 
     try {
@@ -40,51 +32,43 @@ task('testrunner:docker', function () {
     set('testrunner_docker_ip',$ip);
 
     writeln('Setting env parameters');
-    runLocally('eval "$(docker-machine env test)"');
+    runLocally($output);
 
-    writeln('Starting docker container');
+    writeln('Running: eval "$(docker-machine env ' . $docker_name . ')"');
+
+    runLocally('eval "$(docker-machine env ' . $docker_name . ')"');
     env('test_dir', __DIR__);
-    runLocally("cd {{test_dir}} && docker-compose up -d");
 
-    writeln('Wait for mysql to spin up...');
-    //sleep(1);
+    runLocally("cd {{test_dir}} && docker-compose up -d",999);
 
 })->desc('Starting docker');
 
+task('testrunner:rebuild_docker', function () {
+    writeln('Rebuilding Docker php image');
+    runLocally("cd {{test_dir}} && docker-compose build --no-cache --force-rm",999);
+})->desc('Start testing wp');
 
 task('testrunner:wp', function () {
-    writeln('Setting up WordPress');
-    env('deploy_path','/var/www/html/wp');
-    run('mkdir -p wp && cd wp && ls -l', 999);
-    die;
-})->desc('Start testing wp');
-
-
-task('testrunner:prepp', function () {
-    writeln('Config files');
+    writeln('Running install...');
     $ip = get('testrunner_docker_ip');
-    //runLocally("cd {{test_dir}} && sed 's/docker_ip/$ip/g' wp-tests-config.php > wp/wp-tests-config.php");
+    runLocally("cd {{test_dir}} && docker-compose run php $ip",999);
 })->desc('Start testing wp');
-
-
-task('testrunner:run', function () {
-    writeln('Running phpunit');
-    //$output = runLocally('cd {{test_dir}}/wp && ../../../../vendor/bin/phpunit', 999);
-    //writeln($output);
-})->desc('Start testing wp');
-
 
 task('testrunner:cleanup', function () {
     writeln('Killing containers');
-    runLocally('rm -Rf vendor/ekandreas/testrunner/wp');
-    runLocally('cd {{test_dir}} && docker-compose stop && docker-compose rm -f');
+    runLocally("rm -Rf {{test_dir}}/wp");
+    runLocally("cd {{test_dir}} && docker-compose stop && docker-compose rm -f");
 })->desc('Cleanup');
 
 
 task('testrunner', [
     'testrunner:docker',
     'testrunner:wp',
-    'testrunner:prepp',
-    'testrunner:run',
+    'testrunner:cleanup',
+])->desc('Initialize tests');
+
+task('testrunner:rebuild', [
+    'testrunner:docker',
+    'testrunner:rebuild_docker',
     'testrunner:cleanup',
 ])->desc('Initialize tests');

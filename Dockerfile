@@ -1,18 +1,30 @@
-FROM php:5.5-apache
+FROM php:5.6-cli
 
-MAINTAINER Andreas Ek <andreas@aekab.se>
+WORKDIR "/tmp"
 
-RUN a2enmod rewrite
-
-RUN apt-get update && apt-get install -y mysql-client libmysqlclient-dev git subversion
+RUN apt-get update && apt-get install -y \
+	mysql-client \
+	libmysqlclient-dev \
+	git \
+	wget \
+	zip
 
 RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer
+    mv composer.phar /usr/local/bin/composer && \
+    chmod +x /usr/local/bin/composer && \
+	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp && \
+	curl -O https://phar.phpunit.de/phpunit.phar && \
+    chmod +x phpunit.phar && \
+    mv phpunit.phar /usr/local/bin/phpunit
 
-RUN curl -L https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > /usr/local/bin/wp
+RUN docker-php-ext-install mysqli zip
 
-RUN docker-php-ext-install mysqli
+COPY . /usr/src/testrunner
 
-ADD docker.conf /etc/apache2/sites-enabled/
+RUN chmod +x /usr/src/testrunner/bin/test.sh 
 
-EXPOSE 80
+WORKDIR "/usr/src/testrunner"
+
+ENTRYPOINT ["/usr/src/testrunner/bin/test.sh"]

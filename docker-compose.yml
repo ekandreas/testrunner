@@ -1,9 +1,7 @@
-web:
+php:
     build: .
-    ports:
-        - "80:80"
     volumes:
-        - ".:/var/www/html"
+        - "./:/usr/src/testrunner"
     links:
         - mysqldb:mysqldb
 mysqldb:

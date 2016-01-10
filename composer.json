@@ -1,13 +1,11 @@
 {
-    "name": "ekandreas/testrunner",
-    "require": {
-        "deployer/deployer": "^3.0",
-        "phpunit/phpunit": "*"
-    },
+    "name": "root/testrunner",
     "authors": [
         {
             "name": "Andreas Ek",
             "email": "andreas@aekab.se"
         }
-    ]
+    ],
+    "require": {
+    }
 }
