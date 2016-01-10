@@ -23,8 +23,9 @@ RUN docker-php-ext-install mysqli zip
 
 COPY . /usr/src/testrunner
 
-RUN chmod +x /usr/src/testrunner/bin/test.sh 
+RUN chmod +x /usr/src/testrunner/bin/install.sh && \
+	chmod +x /usr/src/testrunner/bin/run.sh
 
 WORKDIR "/usr/src/testrunner"
 
-ENTRYPOINT ["/usr/src/testrunner/bin/test.sh"]
+ENTRYPOINT ["/usr/src/testrunner"]

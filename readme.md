@@ -3,15 +3,7 @@
 
 *** WORK IN PROGRESS ***
 
-ALL TESTS PERFORMED OUTSIDE THE CONTAINER, THIS WILL CHANGE...
-
 *The testsuite should be placed within a plugin that's going to be tested.*
-
-Step 1, checking out wp develop to unittest, ok!
-
-Step 2, adding local test, in progress...
-
-Step 3, put the tests inside the docker machine
 
 ## Requirements
 * Docker-machine with VirtualBox
@@ -26,14 +18,13 @@ composer require ekandreas/testrunner:dev-master
 Include the common recipe and testrunner recipe in your deployer script, eg:
 ```php
 <!-- deploy.php -->
-include_once 'vendor/deployer/deployer/recipe/common.php';
 include_once 'vendor/ekandreas/testrunner/recipe.php';
 ```
 
-Add the stage for the Docker machine with name and IP, eg:
+Add hostname to the virtual machine for tests, will default to tests, eg:
 ```php
 <!-- deploy.php -->
-set( 'docker_host_name', 'test');
+set( 'docker_host_name', 'tests');
 ```
 If you don't have a docker machine setup then the deploy script will try to create it for you. Virtualbox as default.
 
@@ -43,17 +34,38 @@ If you don't have a docker machine setup then the deploy script will try to crea
 <?php
 date_default_timezone_set('Europe/Stockholm');
 
-include_once 'vendor/deployer/deployer/recipe/common.php';
 include_once 'vendor/ekandreas/testrunner/recipe.php';
 
-set( 'docker_host_name', 'test');
+set( 'docker_host_name', 'tests');
 
 ```
 
-## Running tests
-
-Run the test with deployer, eg:
+## Complete run
 ```bash
-vendor/bin/dep testrunner
+vendor/bin/dep tests
+```
+
+## Partitial runs
+
+### Booting up Docker and make installation
+```bash
+vendor/bin/dep tests:up
+```
+
+### Running just the tests (after tests:up)
+```bash
+vendor/bin/dep tests:run
+```
+
+### Stop the tests
+This will kill the containers
+```bash
+vendor/bin/dep tests:stop
+```
+
+### Killing Docker machine
+This will kill the virtual test machine
+```bash
+vendor/bin/dep tests:kill
 ```
 

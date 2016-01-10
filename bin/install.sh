@@ -59,10 +59,3 @@ install_test_suite() {
 
 install_wp
 install_test_suite
-
-# RUNNING TESTS!
-echo "Running tests..."
-echo $WP_DEVELOP_DIR
-cd $WP_DEVELOP_DIR
-phpunit
-

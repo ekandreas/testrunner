@@ -1,11 +1,9 @@
 {
-    "name": "root/testrunner",
+    "name": "ekandreas/testrunner",
     "authors": [
         {
             "name": "Andreas Ek",
             "email": "andreas@aekab.se"
         }
-    ],
-    "require": {
-    }
+    ]
 }
