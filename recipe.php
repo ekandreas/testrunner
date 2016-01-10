@@ -160,7 +160,7 @@ task('tests:up', [
     'tests:setup_docker',
     'tests:docker_env',
     'tests:run_containers',
-    'tests:install_wp',
+    'tests:install',
 ])->desc('Setting up docker, runs the Docker container instances');
 
 task('tests:rebuild', [
