@@ -28,7 +28,7 @@ install_wp() {
 
 install_test_suite() {
 
-	if [ ! -d "$WP_DEVELOP_DIR/wp-content/" ]; then
+	if [ ! -d "$WP_DEVELOP_DIR/src/wp-content/" ]; then
 		# portable in-place argument for both GNU sed and Mac OSX sed
 		if [[ $(uname -s) == 'Darwin' ]]; then
 			local ioption='-i .bak'
