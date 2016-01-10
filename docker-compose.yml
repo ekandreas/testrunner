@@ -3,7 +3,6 @@ web:
     volumes:
         - "./:/usr/src/testrunner"
         - "../../../:/usr/src/plugin"
-        - "./wordpress/:/usr/src/wordpress"
         - "./wordpress-develop/:/usr/src/wordpress-develop"
     links:
         - mysqldb:mysqldb

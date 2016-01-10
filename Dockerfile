@@ -1,4 +1,4 @@
-FROM php:5.6-cli
+FROM php:5.6-apache
 
 WORKDIR "/tmp"
 
@@ -6,9 +6,7 @@ RUN apt-get update && apt-get install -y \
 	mysql-client \
 	libmysqlclient-dev \
 	git \
-	wget \
-	zip \
-	supervisor
+	zip
 
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
@@ -21,7 +19,6 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mv phpunit.phar /usr/local/bin/phpunit
 
 RUN docker-php-ext-install mysqli zip mbstring
-RUN docker-php-ext-enable mbstring
 
 COPY . /usr/src/testrunner
 WORKDIR "/usr/src/testrunner"

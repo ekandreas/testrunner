@@ -36,7 +36,6 @@ task('tests:docker_env', function () {
 
     writeln('Setting env parameters');
 
-    // get the IP!
     $output = runLocally("docker-machine env $docker_name");
     preg_match('/tcp:\/\/(.*?):/', $output, $matches);
     $ip = $matches[1];
@@ -44,14 +43,6 @@ task('tests:docker_env', function () {
 
     writeln("<comment>Docker running at $ip</comment>");
     set('testrunner_docker_ip', $ip);
-
-    //$rows = explode("\n", $output);
-    //foreach ($rows as $key => $row) {
-    //    preg_match('/export\s(.*?)\=\"(.*)\"/', $row, $matches);
-    //    if( sizeof($matches)>1 ) {
-    //        env($matches[1],$matches[2]);
-    //    }
-    //}
 
     $dir = get('test_dir');
     env( 'docker', "cd $dir && " . 'eval "$(docker-machine env ' . $docker_name . ')"' );
@@ -74,7 +65,7 @@ task('tests:run_containers', function () {
 })->desc('Runs the Docker containers');
 
 
-task('tests:install', function () {
+task('tests:install_wp', function () {
     $ip = env('testrunner_docker_ip');
     writeln('Running install...');
 
@@ -94,8 +85,10 @@ task('tests:install', function () {
 
 task('tests:run_tests', function () {
     writeln('Running tests...');
-    if( !file_exists(__DIR__.'/wordpress/wp-content') ) {
-        task('tests:install');
+    $test_dir = get('test_dir');
+    if( !file_exists($test_dir.'/wordpress-develop/src/wp-content') ) {
+        writeln('<error>wordpress-develop missing, please run dep tests:install and try again!</error>');
+        exit();        
     }
     $output = runLocally("{{docker}} && docker-compose run web bin/tests.sh", 999);
     writeln($output);
@@ -114,6 +107,13 @@ task('tests:kill_containers', function () {
     for ($i=1; $i<100; $i++) {
         try {
             runLocally("{{docker}} && docker rm -f testrunner_web_run_$i");
+        } catch (Exception $ex) {
+            break;
+        }
+    }
+    for ($i=1; $i<100; $i++) {
+        try {
+            runLocally("{{docker}} && docker rm -f testrunner_web_$i");
         } catch (Exception $ex) {
             break;
         }
@@ -140,7 +140,7 @@ task('tests:up', [
     'tests:setup_docker',
     'tests:docker_env',
     'tests:run_containers',
-    'tests:install',
+    'tests:install_wp',
 ])->desc('Setting up docker, runs the Docker container instances');
 
 task('tests:rebuild', [
@@ -151,11 +151,16 @@ task('tests:rebuild', [
     'tests:rebuild_images',
 ])->desc('Rebuild Docker container images with no cache');
 
+task('tests:install', [
+    'tests:docker_env',
+    'tests:install_wp',
+])->desc('Rebuild Docker container images with no cache');
+
 task('tests', [
     'tests:setup_docker',
     'tests:docker_env',
     'tests:run_containers',
-    'tests:install',
+    'tests:install_wp',
     'tests:run_tests',
     'tests:stop_containers',
 ])->desc('Runs the whole install and tests, then stopping container instances');
