@@ -9,6 +9,7 @@ set -ex
 
 install_test_suite() {
 
+	rm -Rf $WP_DEVELOP_DIR
 	mkdir -p $WP_DEVELOP_DIR
 
 	# portable in-place argument for both GNU sed and Mac OSX sed

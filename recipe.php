@@ -52,7 +52,7 @@ task('tests:docker_env', function () {
 
 task('tests:rebuild_images', function () {
     writeln('Rebuilding Docker images');
-    runLocally("{{ docker }} && rm -Rf wordpress && rm -Rf wordpress-develop");
+    runLocally("{{ docker }} && rm -Rf wordpress-develop");
     runLocally("{{docker}} && docker-compose build --no-cache --force-rm", 999);
 })->desc('Rebuilds the Docker container images without cache');
 
@@ -69,7 +69,7 @@ task('tests:install_wp', function () {
     $ip = env('testrunner_docker_ip');
     writeln('Running install...');
 
-    runLocally("{{ docker }} && rm -Rf wordpress && rm -Rf wordpress-develop");
+    runLocally("{{ docker }} && rm -Rf wordpress-develop");
 
     $branch = get('wp_branch');
     if(empty($branch)) {
