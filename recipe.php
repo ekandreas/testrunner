@@ -118,6 +118,13 @@ task('tests:kill_containers', function () {
             break;
         }
     }
+    for ($i=1; $i<100; $i++) {
+        try {
+            runLocally("{{docker}} && docker rm -f testrunner_mysqldb_$i");
+        } catch (Exception $ex) {
+            break;
+        }
+    }
 })->desc('Removes the Docker container instances');
 
 

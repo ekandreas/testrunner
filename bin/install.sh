@@ -40,7 +40,7 @@ install_test_suite() {
 
 	echo "SED wp-config"
 	cp $WP_DEVELOP_DIR/wp-tests-config-sample.php $WP_DEVELOP_DIR/wp-tests-config.php
-	#sed $ioption "s:dirname( __FILE__ ) . '/src/':'$WP_CORE_DIR/':" $WP_DEVELOP_DIR/wp-tests-config.php
+	sed $ioption "s:dirname( __FILE__ ) . '/src/':'$WP_DEVELOP_DIR/':" $WP_DEVELOP_DIR/wp-tests-config.php
 	sed $ioption "s/youremptytestdbnamehere/wp/" $WP_DEVELOP_DIR/wp-tests-config.php
 	sed $ioption "s/yourusernamehere/root/" $WP_DEVELOP_DIR/wp-tests-config.php
 	sed $ioption "s/yourpasswordhere/root/" $WP_DEVELOP_DIR/wp-tests-config.php
