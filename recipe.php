@@ -81,6 +81,11 @@ task('tests:install', function () {
 
 task('tests:run_tests', function () {
     writeln('Running tests...');
+    if( !file_exists(__DIR__.'/wordpress/wp-content') ) {
+        $ip = env('testrunner_docker_ip');
+        writeln('Running install...');
+        runLocally("{{docker}} && docker-compose run web bin/install.sh $ip", 999);
+    }
     runLocally("{{docker}} && docker-compose run web bin/tests.sh", 999);
 })->desc('Runs the tests within the Docker container instance');
 
