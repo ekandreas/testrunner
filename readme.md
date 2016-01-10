@@ -44,6 +44,19 @@ set( 'docker_host_name', 'tests');
 ```bash
 vendor/bin/dep tests
 ```
+Place the bin/dep inside your /usr/local/bin folder for easier access.
+```bash
+chmod +x vendor/bin/dep
+cp vendor/bin/dep /usr/local/bin/dep
+```
+Then you can skip the vendor/bin -part, eg:
+```bash
+dep tests
+```
+and
+```bash
+dep tests:run
+```
 
 ## Partitial runs
 
