@@ -1,7 +1,8 @@
-php:
+web:
     build: .
     volumes:
         - "./:/usr/src/testrunner"
+        - "../../../:/usr/src/plugin"
     links:
         - mysqldb:mysqldb
 mysqldb:

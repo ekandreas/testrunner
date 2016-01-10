@@ -6,8 +6,8 @@ DB_PASS=root
 DB_HOST=$1
 WP_VERSION=${2-latest}
 
-WP_CORE_DIR=/tmp/wordpress
-WP_DEVELOP_DIR=${WP_DEVELOP_DIR-/tmp/wordpress-develop}
+WP_CORE_DIR=/usr/src/wordpress
+WP_DEVELOP_DIR=${WP_DEVELOP_DIR-/usr/src/wordpress-develop}
 
 set -ex
 

@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
 	libmysqlclient-dev \
 	git \
 	wget \
-	zip
+	zip \
+	supervisor
 
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
@@ -22,10 +23,8 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 RUN docker-php-ext-install mysqli zip
 
 COPY . /usr/src/testrunner
-
-RUN chmod +x /usr/src/testrunner/bin/install.sh && \
-	chmod +x /usr/src/testrunner/bin/run.sh
-
 WORKDIR "/usr/src/testrunner"
 
-ENTRYPOINT ["/usr/src/testrunner"]
+RUN ["chmod", "+x", "bin/install.sh"]
+RUN ["chmod", "+x", "bin/tests.sh"]
+
