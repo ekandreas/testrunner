@@ -3,21 +3,13 @@
 DB_HOST=$1
 WP_VERSION=$2
 
-WP_DEVELOP_DIR=${WP_DEVELOP_DIR-/usr/src/wordpress-develop}
+WP_DEVELOP_DIR="/usr/src/wordpress-develop"
 
 set -ex
 
 install_test_suite() {
 
-	rm -Rf $WP_DEVELOP_DIR
 	mkdir -p $WP_DEVELOP_DIR
-
-	# portable in-place argument for both GNU sed and Mac OSX sed
-	if [[ $(uname -s) == 'Darwin' ]]; then
-		local ioption='-i .bak'
-	else
-		local ioption='-i'
-	fi
 
 	# set up testing suite
 	echo "Testsuite, checkout"
