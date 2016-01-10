@@ -11,6 +11,13 @@ install_test_suite() {
 
 	mkdir -p $WP_DEVELOP_DIR
 
+	# portable in-place argument for both GNU sed and Mac OSX sed
+	if [[ $(uname -s) == 'Darwin' ]]; then
+		local ioption='-i .bak'
+	else
+		local ioption='-i'
+	fi
+
 	# set up testing suite
 	echo "Testsuite, checkout"
 	git clone https://github.com/frozzare/wordpress-develop.git $WP_DEVELOP_DIR
