@@ -3,22 +3,9 @@
 DB_HOST=$1
 WP_VERSION=$2
 
-WP_CORE_DIR=/usr/src/testrunner/wordpress
-WP_DEVELOP_DIR=${WP_DEVELOP_DIR-/usr/src/testrunner/wordpress-develop}
+WP_DEVELOP_DIR=${WP_DEVELOP_DIR-/usr/src/wordpress-develop}
 
 set -ex
-
-install_wp() {
-
-	mkdir -p $WP_CORE_DIR
-
-	cd $WP_CORE_DIR
-
-	wp core download --path=$WP_CORE_DIR --version=$WP_VERSION --allow-root
-	wp core config --dbname=wp --dbuser=root --dbpass=root --dbhost=$DB_HOST --allow-root
-	wp core install --path=$WP_CORE_DIR --url=http://local.dev --title=test --admin_user=admin --admin_password=admin --admin_email=a@aekab.se --skip-email --allow-root
-
-}
 
 install_test_suite() {
 
@@ -40,7 +27,7 @@ install_test_suite() {
 
 	echo "SED wp-config"
 	cp $WP_DEVELOP_DIR/wp-tests-config-sample.php $WP_DEVELOP_DIR/wp-tests-config.php
-	sed $ioption "s:dirname( __FILE__ ) . '/src/':'$WP_DEVELOP_DIR/':" $WP_DEVELOP_DIR/wp-tests-config.php
+	sed $ioption "s:dirname( __FILE__ ) . '/src/':'$WP_DEVELOP_DIR/src/':" $WP_DEVELOP_DIR/wp-tests-config.php
 	sed $ioption "s/youremptytestdbnamehere/wp/" $WP_DEVELOP_DIR/wp-tests-config.php
 	sed $ioption "s/yourusernamehere/root/" $WP_DEVELOP_DIR/wp-tests-config.php
 	sed $ioption "s/yourpasswordhere/root/" $WP_DEVELOP_DIR/wp-tests-config.php
@@ -48,7 +35,6 @@ install_test_suite() {
 
 }
 
-#install_wp
 install_test_suite
 
 echo "Installation done!"

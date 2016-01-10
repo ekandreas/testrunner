@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -ex
 
-cd /usr/src/testrunner/wordpress-develop
+cd /usr/src/wordpress-develop
 phpunit
