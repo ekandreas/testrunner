@@ -2,7 +2,7 @@
 use Deployer\Deployer;
 
 /* default parameters */
-set('docker_host_name', 'tests');
+set('docker_host_name', 'default');
 set('test_dir', __DIR__);
 set('wp_branch', '');
 
