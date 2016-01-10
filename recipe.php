@@ -60,8 +60,8 @@ task('tests:rebuild_images', function () {
 task('tests:run_containers', function () {
     writeln('Starting Docker containers');
     runLocally("{{docker}} && docker-compose up -d", 999);
-    writeln("Waiting for mysql to spin! (3s)");
-    sleep(3);
+    writeln("Waiting for mysql to spin! (5s)");
+    sleep(5);
 })->desc('Runs the Docker containers');
 
 
@@ -160,7 +160,7 @@ task('tests:up', [
     'tests:setup_docker',
     'tests:docker_env',
     'tests:run_containers',
-    'tests:install',
+    'tests:install_wp',
 ])->desc('Setting up docker, runs the Docker container instances');
 
 task('tests:rebuild', [
