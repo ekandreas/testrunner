@@ -90,8 +90,21 @@ task('tests:run_tests', function () {
         writeln('<error>wordpress-develop missing, please run dep tests:install and try again!</error>');
         exit();        
     }
-    $output = runLocally("{{docker}} && docker-compose run web bin/tests.sh", 999);
-    writeln($output);
+    runLocally("{{docker}} && docker-compose run web bin/tests.sh", 999);
+    $result = file_get_contents($test_dir.'/wordpress-develop/src/wp-content/plugins/theplugin/testresult.txt');
+    preg_match('/(OK\s\()/', $result, $matches);
+    if( sizeof($matches)>1 ) {
+        writeln('<fg=green>'.$result.'</fg=green>');
+    } else {
+        writeln('<fg=red>'.$result.'</fg=red>');
+    }
+    for ($i=1; $i<100; $i++) {
+        try {
+            runLocally("{{docker}} && docker rm -f testrunner_web_run_$i");
+        } catch (Exception $ex) {
+            break;
+        }
+    }
 })->desc('Runs the tests within the Docker container instance');
 
 
@@ -174,7 +187,6 @@ task('tests', [
 
 task('tests:run', [
     'tests:docker_env',
-    'tests:run_containers',
     'tests:run_tests',
 ])->desc('Running tests within already installed images and containers');
 
