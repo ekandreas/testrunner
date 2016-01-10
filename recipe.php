@@ -78,6 +78,8 @@ task('tests:install', function () {
     $ip = env('testrunner_docker_ip');
     writeln('Running install...');
 
+    runLocally("{{ docker }} && rm -Rf wordpress && rm -Rf wordpress-develop");
+
     $branch = get('wp_branch');
     if(empty($branch)) {
         $api_url = 'http://api.wordpress.org/core/version-check/1.7/';
@@ -93,9 +95,7 @@ task('tests:install', function () {
 task('tests:run_tests', function () {
     writeln('Running tests...');
     if( !file_exists(__DIR__.'/wordpress/wp-content') ) {
-        $ip = env('testrunner_docker_ip');
-        writeln('Running install...');
-        runLocally("{{docker}} && docker-compose run web bin/install.sh $ip", 999);
+        task('tests:install');
     }
     $output = runLocally("{{docker}} && docker-compose run web bin/tests.sh", 999);
     writeln($output);
