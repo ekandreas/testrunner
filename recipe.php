@@ -56,7 +56,7 @@ task('tests:docker_env', function () {
 task('tests:rebuild_images', function () {
     writeln('Rebuilding Docker images');
     runLocally("{{ docker }} && rm -Rf wordpress-develop");
-    runLocally("{{docker}} && docker build -t testrunner_php --no-cache=true --force-rm=true .", 999);
+    runLocally("{{docker}} && docker build -t testrunner_php .", 999);
 })->desc('Rebuilds the Docker container images without cache');
 
 
@@ -71,6 +71,8 @@ task('tests:install_wp', function () {
     $test_dir = get('test_dir');
 
     writeln('Running install...');
+
+    runLocally("{{ docker }} && rm -Rf wordpress-develop");
 
     $branch = get('wp_branch');
     if(empty($branch)) {
