@@ -3,7 +3,7 @@
 DB_HOST=$1
 WP_VERSION=$2
 
-WP_DEVELOP_DIR="/usr/src/wordpress-develop"
+WP_DEVELOP_DIR="/usr/src/testrunner/wordpress-develop"
 
 set -ex
 
@@ -20,7 +20,7 @@ install_test_suite() {
 
 	# set up testing suite
 	echo "Testsuite, checkout"
-	git clone https://github.com/frozzare/wordpress-develop.git $WP_DEVELOP_DIR
+	git clone -v https://github.com/frozzare/wordpress-develop.git $WP_DEVELOP_DIR
 	cd $WP_DEVELOP_DIR
 	git fetch
 	git checkout $WP_BRANCH

@@ -24,6 +24,8 @@ RUN	curl -O https://phar.phpunit.de/phpunit.phar && \
 
 RUN	docker-php-ext-install mysqli zip mbstring
 
+RUN mkdir /usr/src/plugin
+
 WORKDIR "/usr/src/testrunner"
 
 RUN chmod +x /usr/src/testrunner/bin/install.sh && \

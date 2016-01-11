@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -ex
 
-export WP_DEVELOP_DIR="/usr/src/wordpress-develop"
-cd /usr/src/wordpress-develop/src/wp-content/plugins
+export WP_DEVELOP_DIR="/usr/src/testrunner/wordpress-develop"
+cd /usr/src/testrunner/wordpress-develop/src/wp-content/plugins
 mkdir -p theplugin
 cd theplugin
 rsync -rv --exclude={vendor,.git} /usr/src/plugin/. .
