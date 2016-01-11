@@ -113,3 +113,6 @@ set( 'docker_host_name', 'tests');
 ```
 If you don't have a docker machine setup then the deploy script will try to create it for you. Virtualbox as default.
 
+## TODO
+* Just one single command ``dep tests`` to check and startup mysql and install if missing.
+
