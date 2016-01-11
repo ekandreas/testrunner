@@ -100,7 +100,7 @@ task('tests:run_tests', function () {
         testrunner_restart_mysql();
     }
     
-    $plugin_dir = __DIR__;
+    $plugin_dir = realpath(__DIR__.'/../../../');
     runLocally("{{docker}} && docker run \
         -v $test_dir:/usr/src/testrunner \
         -v $plugin_dir:/usr/src/plugin \
